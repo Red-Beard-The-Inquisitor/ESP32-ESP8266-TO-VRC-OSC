@@ -219,7 +219,7 @@ void loop() {
     analogval4 = analogRead(analoginput4);                            
 
     if (((analogval1) > ((analogvallast1) + (jitter))) || ((analogval1) < ((analogvallast1) - (jitter)))) { // Compares current analog vlaue to last analog value read, if it has changed more than +/- "jitter"
-      analogvallast1 = (analogval1);                                                                        // updates current analog value to be used
+      analogvallast1 = constrain(analogval1,20,1010);                                                       // updates current analog value to be used and limits it to 20-1010
       mappedval1 = map(analogvallast1, 20, 1010, 0, 100);                                                   // maps analog value to a 0 - 100 value
       floatval1 = (mappedval1) / 100;                                                                       // divides mapped value to make it a 0.00 - 1.00 float
       sendparam5();                                                                                         // executes the void to send the new float value
@@ -227,7 +227,7 @@ void loop() {
       Serial.println(floatval1);                                                                            // debug, prints the sent float value to serial
     }
     if (((analogval2) > ((analogvallast2) + (jitter))) || ((analogval2) < ((analogvallast2) - (jitter)))) {
-      analogvallast2 = (analogval2);
+      analogvallast2 = constrain(analogval2,20,1010);
       mappedval2 = map(analogvallast2, 20, 1010, 0, 100);
       floatval2 = (mappedval2) / 100;
       sendparam6();
@@ -235,7 +235,7 @@ void loop() {
       Serial.println(floatval2);
     }
     if (((analogval3) > ((analogvallast3) + (jitter))) || ((analogval3) < ((analogvallast3) - (jitter)))) {
-      analogvallast3 = (analogval3);
+      analogvallast3 = constrain(analogval3,20,1010);
       mappedval3 = map(analogvallast3, 20, 1010, 0, 100);
       floatval3 = (mappedval3) / 100;
       sendparam7();
@@ -243,7 +243,7 @@ void loop() {
       Serial.println(floatval3);
     }
     if (((analogval4) > ((analogvallast4) + (jitter))) || ((analogval4) < ((analogvallast4) - (jitter)))) {
-      analogvallast4 = (analogval4);
+      analogvallast4 = constrain(analogval4,20,1010);
       mappedval4 = map(analogvallast4, 20, 1010, 0, 100);
       floatval4 = (mappedval4) / 100;
       sendparam8();
