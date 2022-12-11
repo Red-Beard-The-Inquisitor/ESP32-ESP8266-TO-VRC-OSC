@@ -191,7 +191,7 @@ void loop() {
     analogval1 = analogRead(analoginput1);                            // reads the analog value
 
     if (((analogval1) > ((analogvallast1) + (jitter))) || ((analogval1) < ((analogvallast1) - (jitter)))) { // Compares current analog vlaue to last analog value read, if it has changed more than +/- "jitter"
-      analogvallast1 = (analogval1);                                                                        // updates current analog value to be used
+      analogvallast1 = constrain(analogval1,20,1010);                                                       // updates current analog value to be used and limits it to 20-1010
       mappedval1 = map(analogvallast1, 20, 1010, 0, 100);                                                   // maps analog value to a 0 - 100 value
       floatval1 = (mappedval1) / 100;                                                                       // divides mapped value to make it a 0.00 - 1.00 float
       sendparam5();                                                                                         // executes the void to send the new float value
