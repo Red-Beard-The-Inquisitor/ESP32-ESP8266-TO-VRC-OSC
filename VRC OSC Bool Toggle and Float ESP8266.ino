@@ -20,6 +20,7 @@ int lastsentbool4 = 0;
 /////////////////////////////
 // definitions necessary for analog to float
 
+int analogvalraw1 = 0;
 int analogval1 = 0;
 int analogvallast1 = 0;
 float mappedval1 = 0;
@@ -188,11 +189,12 @@ void loop() {
   if (currentMillis - previousMillis > interval) {                     // checks if enough time has passed since last run, if it has
     previousMillis = currentMillis;                                   // marks time of when this section ran
     interval = 30;                                                    // Sets how often analog inputs are read, avoids reading every cycle as it's not needed.
-    analogval1 = analogRead(analoginput1);                            // reads the analog value
+    analogvalraw1 = analogRead(analoginput1);             // reads the analog values
+    analogval1 = constrain(analogvalraw1,20,1010);        // constrains output. to ensure full range is output later, Basiclly adds a dead zone at each extreme
 
     if (((analogval1) > ((analogvallast1) + (jitter))) || ((analogval1) < ((analogvallast1) - (jitter)))) { // Compares current analog vlaue to last analog value read, if it has changed more than +/- "jitter"
-      analogvallast1 = constrain(analogval1,20,1010);                                                       // updates current analog value to be used and limits it to 20-1010
-      mappedval1 = map(analogvallast1, 20, 1010, 0, 100);                                                   // maps analog value to a 0 - 100 value
+      analogvallast1 = (analogval1);                                                                        // updates current analog value to be used
+      mappedval1 = map(analogvallast1, 20, 1010, 100, 0);                                                   // maps analog value to a 0 - 100 value
       floatval1 = (mappedval1) / 100;                                                                       // divides mapped value to make it a 0.00 - 1.00 float
       sendparam5();                                                                                         // executes the void to send the new float value
       Serial.print("sendparameter5float ");                                                                 // debug
